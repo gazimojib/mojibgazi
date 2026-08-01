@@ -1,26 +1,28 @@
-// Global data
+// Excel data
 let personnelData = [];
 
-// Load Excel
-document.getElementById("excelFile").addEventListener("change", function (e) {
+// File Upload
+document.getElementById("excelFile").addEventListener("change", function(e){
 
     const file = e.target.files[0];
 
+    if(!file){
+        return;
+    }
+
     const reader = new FileReader();
 
-    reader.onload = function (event) {
+    reader.onload = function(event){
 
         const data = new Uint8Array(event.target.result);
 
-        const workbook = XLSX.read(data, { type: "array" });
+        const workbook = XLSX.read(data,{type:"array"});
 
-        const sheetName = workbook.SheetNames[0];
-
-        const sheet = workbook.Sheets[sheetName];
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
         personnelData = XLSX.utils.sheet_to_json(sheet);
 
-        loadTable(personnelData);
+        showTable(personnelData);
 
         updateDashboard();
 
@@ -30,62 +32,48 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
 
 });
 
-function loadTable(data){
+// Show Table
+function showTable(data){
 
-    const table=document.getElementById("tableBody");
+    let html="";
 
-    table.innerHTML="";
+    data.forEach(function(item){
 
-    data.forEach(person=>{
-
-        table.innerHTML+=`
-
-<tr>
-
-<td>${person["ID"]||""}</td>
-
-<td>${person["Rank"]||""}</td>
-
-<td>${person["Name"]||""}</td>
-
-<td>${person["Trade"]||""}</td>
-
-<td>${person["Section"]||""}</td>
-
-<td>${person["Collected"]||""}</td>
-
-</tr>
-
-`;
+        html += `
+        <tr>
+            <td>${item.ID || ""}</td>
+            <td>${item.Rank || ""}</td>
+            <td>${item.Name || ""}</td>
+            <td>${item.Trade || ""}</td>
+            <td>${item.Section || ""}</td>
+            <td>${item.Status || ""}</td>
+        </tr>
+        `;
 
     });
 
+    document.getElementById("tableBody").innerHTML = html;
+
 }
 
+// Dashboard
 function updateDashboard(){
 
-document.getElementById("total").innerText=personnelData.length;
-
-let collected=personnelData.filter(x=>x["Collected"]==="ডাটা পাওয়া গেছে").length;
-
-document.getElementById("collected").innerText=collected;
-
-document.getElementById("remaining").innerText=personnelData.length-collected;
+    document.getElementById("total").innerHTML = personnelData.length;
 
 }
 
 // Search
-
 document.getElementById("search").addEventListener("keyup",function(){
 
-let value=this.value.toLowerCase();
+    let value = this.value.toLowerCase();
 
-let result=personnelData.filter(person=>{
+    let result = personnelData.filter(function(item){
 
-return Object.values(person).join(" ").toLowerCase().includes(value);
+        return JSON.stringify(item).toLowerCase().includes(value);
 
-});
+    });
 
-loadTable(result);
+    showTable(result);
 
 });
