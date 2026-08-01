@@ -48,7 +48,13 @@ function loadExcel(e){
 
         renderTable(personnel);
 
-        updateDashboard();
+        updateDashboard()updateSection(
+    "HQ BN",
+    "hqTotal",
+    "hqCollected",
+    "hqRemaining",
+    "hqBar"
+);
 
     }
 
