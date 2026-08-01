@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elena Marsh — Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,600;0,900;1,400;1,500&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEDE6;
+    --paper-dim:#E3E2D9;
+    --ink:#15171A;
+    --ink-soft:#4B4F52;
+    --accent-red:#C22B1B;
+    --accent-teal:#2C5F63;
+    --line: rgba(21,23,26,0.14);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--accent-red); color:var(--paper); }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .mono{
+    font-family:'Space Mono', monospace;
+    letter-spacing:0.02em;
+  }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .eyebrow::before{
+    content:'';
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--accent-red);
+    display:inline-block;
+    flex-shrink:0;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px clamp(20px,5vw,56px);
+    mix-blend-mode:normal;
+    background:linear-gradient(to bottom, rgba(237,237,230,0.92), rgba(237,237,230,0));
+    backdrop-filter:blur(2px);
+  }
+
+  .nav-mark{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:18px;
+    letter-spacing:0.01em;
+  }
+
+  .nav-links{
+    display:flex;
+    gap:28px;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  .nav-links a{
+    position:relative;
+    padding-bottom:3px;
+    opacity:0.75;
+    transition:opacity 0.2s ease;
+  }
+  .nav-links a:hover{ opacity:1; }
+  .nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0%; height:1px;
+    background:var(--accent-red);
+    transition:width 0.25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+
+  @media (max-width:640px){
+    .nav-links{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0 clamp(20px,5vw,56px);
+    position:relative;
+  }
+
+  .hero-frame-count{
+    position:absolute;
+    top:100px;
+    left:clamp(20px,5vw,56px);
+  }
+
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    line-height:0.92;
+    font-size:clamp(48px, 10vw, 132px);
+    letter-spacing:-0.01em;
+    max-width:16ch;
+    margin-top:28px;
+  }
+
+  .hero-sub{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-top:40px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    gap:24px;
+    flex-wrap:wrap;
+  }
+
+  .hero-tagline{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(16px,2vw,20px);
+    color:var(--ink-soft);
+    max-width:34ch;
+  }
+
+  .hero-meta{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:right;
+    line-height:1.6;
+  }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:36px;
+    left:clamp(20px,5vw,56px);
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .scroll-cue .line{
+    width:32px; height:1px;
+    background:var(--ink-soft);
+    position:relative;
+    overflow:hidden;
+  }
+  .scroll-cue .line::after{
+    content:'';
+    position:absolute;
+    left:-100%; top:0;
+    width:100%; height:100%;
+    background:var(--accent-red);
+    animation:cue 2.2s ease-in-out infinite;
+  }
+  @keyframes cue{
+    0%{ left:-100%; }
+    50%{ left:0%; }
+    100%{ left:100%; }
+  }
+
+  /* ---------- SECTION HEADER ---------- */
+  .section{
+    padding:120px clamp(20px,5vw,56px);
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:56px;
+    flex-wrap:wrap;
+    gap:16px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:20px;
+  }
+  .section-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(28px,4vw,44px);
+  }
+
+  /* ---------- WORK GRID ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:18px;
+  }
+
+  .frame{
+    position:relative;
+    overflow:hidden;
+    border-radius:2px;
+    aspect-ratio:4/5;
+    cursor:pointer;
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .frame.visible{ opacity:1; transform:translateY(0); }
+
+  .frame:nth-child(1){ grid-column:span 3; }
+  .frame:nth-child(2){ grid-column:span 3; }
+  .frame:nth-child(3){ grid-column:span 2; aspect-ratio:1/1; }
+  .frame:nth-child(4){ grid-column:span 2; aspect-ratio:1/1; }
+  .frame:nth-child(5){ grid-column:span 2; aspect-ratio:1/1; }
+  .frame:nth-child(6){ grid-column:span 6; aspect-ratio:16/7; }
+
+  @media (max-width:860px){
+    .grid{ grid-template-columns:repeat(2,1fr); }
+    .frame:nth-child(1),.frame:nth-child(2),.frame:nth-child(6){ grid-column:span 2; }
+    .frame:nth-child(3),.frame:nth-child(4),.frame:nth-child(5){ grid-column:span 1; }
+  }
+  @media (max-width:520px){
+    .grid{ grid-template-columns:1fr; }
+    .frame{ grid-column:span 1 !important; aspect-ratio:4/5 !important; }
+  }
+
+  .frame-img{
+    position:absolute; inset:0;
+    transition:transform 0.9s cubic-bezier(.2,.8,.2,1);
+  }
+  .frame:hover .frame-img{ transform:scale(1.045); }
+
+  .grain{
+    position:absolute; inset:0;
+    opacity:0.35;
+    mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events:none;
+  }
+
+  .frame-tick{
+    position:absolute;
+    width:14px; height:14px;
+    opacity:0;
+    transition:opacity 0.3s ease;
+  }
+  .frame:hover .frame-tick{ opacity:0.9; }
+  .tick-tl{ top:14px; left:14px; border-top:1.5px solid var(--paper); border-left:1.5px solid var(--paper); }
+  .tick-br{ bottom:14px; right:14px; border-bottom:1.5px solid var(--paper); border-right:1.5px solid var(--paper); }
+
+  .frame-num{
+    position:absolute;
+    top:14px; right:16px;
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    color:var(--paper);
+    opacity:0.85;
+    z-index:2;
+  }
+
+  .frame-caption{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    padding:16px 18px;
+    background:linear-gradient(to top, rgba(10,10,9,0.88), rgba(10,10,9,0));
+    color:var(--paper);
+    transform:translateY(100%);
+    transition:transform 0.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .frame:hover .frame-caption{ transform:translateY(0); }
+
+  .frame-caption .title{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:17px;
+    margin-bottom:4px;
+  }
+  .frame-caption .exif{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    opacity:0.8;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-wrap{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:64px;
+    align-items:start;
+  }
+  @media (max-width:800px){
+    .about-wrap{ grid-template-columns:1fr; }
+  }
+
+  .about-text p{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(20px,2.4vw,28px);
+    line-height:1.45;
+    color:var(--ink);
+  }
+  .about-text p + p{ margin-top:22px; color:var(--ink-soft); font-size:16px; font-family:'Inter',sans-serif; line-height:1.7; }
+
+  .contact-sheet{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  .cs-tile{
+    aspect-ratio:1/1;
+    border-radius:1px;
+    position:relative;
+    overflow:hidden;
+  }
+  .cs-tile .grain{ opacity:0.4; }
+  .cs-label{
+    margin-top:14px;
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    letter-spacing:0.05em;
+  }
+
+  /* ---------- RECOGNITION ---------- */
+  .recognition{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    border-top:1px solid var(--line);
+  }
+  .rec-item{
+    flex:1 1 220px;
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+  }
+  .rec-item span:last-child{ color:var(--ink-soft); }
+
+  /* ---------- FOOTER / CONTACT ---------- */
+  footer{
+    background:var(--ink);
+    color:var(--paper);
+    padding:120px clamp(20px,5vw,56px) 40px;
+  }
+  footer .eyebrow{ color:rgba(237,237,230,0.6); }
+  footer .eyebrow::before{ background:var(--accent-red); }
+
+  .footer-cta{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(32px,6vw,72px);
+    line-height:1.05;
+    margin-top:24px;
+    max-width:14ch;
+  }
+
+  .footer-email{
+    display:inline-block;
+    margin-top:36px;
+    font-family:'Space Mono', monospace;
+    font-size:clamp(16px,2.4vw,22px);
+    border-bottom:1px solid rgba(237,237,230,0.4);
+    padding-bottom:6px;
+    transition:border-color 0.2s ease, color 0.2s ease;
+  }
+  .footer-email:hover{ border-color:var(--accent-red); color:var(--accent-red); }
+
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-top:100px;
+    padding-top:24px;
+    border-top:1px solid rgba(237,237,230,0.16);
+    flex-wrap:wrap;
+    gap:20px;
+  }
+  .footer-social{
+    display:flex;
+    gap:22px;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  .footer-social a{ opacity:0.7; transition:opacity 0.2s ease; }
+  .footer-social a:hover{ opacity:1; color:var(--accent-red); }
+
+  .footer-end{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    color:rgba(237,237,230,0.5);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent-red);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#top" class="nav-mark">Elena Marsh</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-frame-count eyebrow">Frame No. 001 — Portfolio, est. 2018</div>
+  <h1>Photographs that sit still<br>long enough to be felt.</h1>
+  <div class="hero-sub">
+    <p class="hero-tagline">Editorial and documentary work based in Lisbon, shooting on location worldwide.</p>
+    <div class="hero-meta mono">
+      35MM &amp; MEDIUM FORMAT<br>
+      AVAILABLE FOR COMMISSION
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span> SCROLL TO VIEW ROLL</div>
+</section>
+
+<section class="section" id="work">
+  <div class="section-head">
+    <h2>Selected Work</h2>
+    <span class="mono" style="font-size:12px; color:var(--ink-soft);">002 — 007</span>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-head">
+    <h2>About</h2>
+    <span class="mono" style="font-size:12px; color:var(--ink-soft);">Specs</span>
+  </div>
+  <div class="about-wrap">
+    <div class="about-text">
+      <p>I make pictures for people who'd rather remember a feeling than a pose.</p>
+      <p>Ten years photographing editorial stories, quiet portraits, and unglamorous documentary work across Southern Europe and North Africa. Clients include independent magazines, small design studios, and a handful of families who wanted their year kept somewhere safe.</p>
+      <p>Shoots are planned loosely and executed patiently — most of what ends up in a final edit was never staged.</p>
+    </div>
+    <div>
+      <div class="contact-sheet" id="contactSheet"></div>
+      <div class="cs-label">Contact sheet, unpublished frames, 2023–2025</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="recognition-wrap">
+  <div class="section-head">
+    <h2>Recognition</h2>
+    <span class="mono" style="font-size:12px; color:var(--ink-soft);">Selected</span>
+  </div>
+  <div class="recognition">
+    <div class="rec-item"><span>做f/8 Journal</span><span>Cover story, 2024</span></div>
+    <div class="rec-item"><span>Marabout Editions</span><span>Monograph, 2023</span></div>
+    <div class="rec-item"><span>Lumen Prize</span><span>Shortlist, 2022</span></div>
+    <div class="rec-item"><span>Studio Norte</span><span>Campaign, 2021</span></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="eyebrow">End of roll — frame 007 of 007</div>
+  <div class="footer-cta">Have a story worth slowing down for?</div>
+  <a href="mailto:hello@elenamarsh.studio" class="footer-email">hello@elenamarsh.studio</a>
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">Are.na</a>
+      <a href="#">Are.na</a>
+    </div>
+    <div class="footer-end mono">© 2026 ELENA MARSH — LISBON, PT</div>
+  </div>
+</footer>
+
+<script>
+  const works = [
+    { title:"Salt Roads", exif:"f/4 · 1/500s · ISO 200 · Algarve, 2025", g1:"#8B6B2E", g2:"#1C1710" },
+    { title:"Interior Weather", exif:"f/2.8 · 1/125s · ISO 400 · Lisbon, 2024", g1:"#2C5F63", g2:"#0D1A1B" },
+    { title:"Nightshift", exif:"f/1.8 · 1/60s · ISO 1600 · Porto, 2024", g1:"#7A2318", g2:"#180C0A" },
+    { title:"Field Notes", exif:"f/5.6 · 1/250s · ISO 100 · Alentejo, 2023", g1:"#6B6B5E", g2:"#18170F" },
+    { title:"Kin", exif:"f/2 · 1/200s · ISO 320 · Marrakesh, 2023", g1:"#9C5A3C", g2:"#1B120C" },
+    { title:"Low Tide, Long Light", exif:"f/8 · 1/1000s · ISO 100 · Sagres, 2025", g1:"#3F4A52", g2:"#0E1113" },
+  ];
+
+  const grid = document.getElementById('grid');
+  works.forEach((w, i) => {
+    const num = String(i + 2).padStart(3, '0');
+    const el = document.createElement('div');
+    el.className = 'frame';
+    el.style.transitionDelay = (i * 70) + 'ms';
+    el.innerHTML = `
+      <div class="frame-img" style="background:linear-gradient(155deg, ${w.g1}, ${w.g2});"></div>
+      <div class="grain"></div>
+      <div class="frame-num mono">${num}</div>
+      <div class="frame-tick tick-tl"></div>
+      <div class="frame-tick tick-br"></div>
+      <div class="frame-caption">
+        <div class="title">${w.title}</div>
+        <div class="exif">${w.exif}</div>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+
+  const sheet = document.getElementById('contactSheet');
+  const tones = ["#8B6B2E","#2C5F63","#7A2318","#6B6B5E","#9C5A3C","#3F4A52"];
+  tones.forEach(t => {
+    const tile = document.createElement('div');
+    tile.className = 'cs-tile';
+    tile.innerHTML = `<div style="position:absolute;inset:0;background:linear-gradient(160deg, ${t}, #14120F);"></div><div class="grain"></div>`;
+    sheet.appendChild(tile);
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.frame').forEach(f => io.observe(f));
+</script>
+
+</body>
+</html>
