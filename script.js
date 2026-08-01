@@ -163,3 +163,29 @@ personnel.filter(x=>x["COY"]=="MTPL").length;
 
 document.getElementById("emeCount").innerText =
 personnel.filter(x=>x["COY"]=="EME").length;
+function updateSection(sectionName, totalId, collectedId, remainingId, barId){
+
+    const total = personnel.filter(x =>
+        x["COY"] === sectionName
+    ).length;
+
+    const collected = personnel.filter(x =>
+        x["COY"] === sectionName &&
+        x["Collected?"] === "ডাটা পাওয়া গেছে"
+    ).length;
+
+    const remaining = total - collected;
+
+    const percent = total === 0 ? 0 : Math.round((collected / total) * 100);
+
+    document.getElementById(totalId).innerText = total;
+
+    document.getElementById(collectedId).innerText = collected;
+
+    document.getElementById(remainingId).innerText = remaining;
+
+    document.getElementById(barId).style.width = percent + "%";
+
+    document.getElementById(barId).innerText = percent + "%";
+
+}
