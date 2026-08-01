@@ -1,79 +1,94 @@
-// Excel data
-let personnelData = [];
+// ===============================
+// 35 ST BN Personnel Management
+// Part-1 : Excel Import
+// ===============================
 
-// File Upload
-document.getElementById("excelFile").addEventListener("change", function(e){
+let personnel = [];
+
+const excelInput = document.getElementById("excelFile");
+const searchInput = document.getElementById("search");
+const tableBody = document.getElementById("tableBody");
+
+excelInput.addEventListener("change", loadExcel);
+
+function loadExcel(e){
 
     const file = e.target.files[0];
 
     if(!file){
+        alert("Please select an Excel file.");
         return;
     }
 
     const reader = new FileReader();
 
-    reader.onload = function(event){
+    reader.onload = function(evt){
 
-        const data = new Uint8Array(event.target.result);
+        const data = new Uint8Array(evt.target.result);
 
-        const workbook = XLSX.read(data,{type:"array"});
+        const workbook = XLSX.read(data,{
+            type:"array"
+        });
 
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        // আপনার Collection Sheet
+        const sheetName = "Collection";
 
-        personnelData = XLSX.utils.sheet_to_json(sheet);
+        const sheet = workbook.Sheets[sheetName];
 
-        showTable(personnelData);
+        if(!sheet){
+            alert("Collection Sheet Not Found");
+            return;
+        }
+
+        personnel = XLSX.utils.sheet_to_json(sheet,{
+            defval:""
+        });
+
+        console.log(personnel);
+
+        renderTable(personnel);
 
         updateDashboard();
 
-    };
+    }
 
     reader.readAsArrayBuffer(file);
 
-});
+}
 
-// Show Table
-function showTable(data){
+function renderTable(data){
 
-    let html="";
+    tableBody.innerHTML="";
 
-    data.forEach(function(item){
+    data.forEach(person=>{
 
-        html += `
-        <tr>
-            <td>${item.ID || ""}</td>
-            <td>${item.Rank || ""}</td>
-            <td>${item.Name || ""}</td>
-            <td>${item.Trade || ""}</td>
-            <td>${item.Section || ""}</td>
-            <td>${item.Status || ""}</td>
-        </tr>
-        `;
+        tableBody.innerHTML+=`
+
+<tr>
+
+<td>${person["ID No"]}</td>
+
+<td>${person["RANK"]}</td>
+
+<td>${person["NAME"]}</td>
+
+<td>${person["TRADE"]}</td>
+
+<td>${person["COY"]}</td>
+
+<td>${person["DISTRICT"]}</td>
+
+</tr>
+
+`;
 
     });
 
-    document.getElementById("tableBody").innerHTML = html;
-
 }
 
-// Dashboard
 function updateDashboard(){
 
-    document.getElementById("total").innerHTML = personnelData.length;
+    document.getElementById("total").innerHTML =
+    personnel.length;
 
 }
-
-// Search
-document.getElementById("search").addEventListener("keyup",function(){
-
-    let value = this.value.toLowerCase();
-
-    let result = personnelData.filter(function(item){
-
-        return JSON.stringify(item).toLowerCase().includes(value);
-
-    });
-
-    showTable(result);
-
-});
