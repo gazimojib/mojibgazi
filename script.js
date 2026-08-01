@@ -189,3 +189,35 @@ function updateSection(sectionName, totalId, collectedId, remainingId, barId){
     document.getElementById(barId).innerText = percent + "%";
 
 }
+const sectionFilter =
+document.getElementById("sectionFilter");
+
+sectionFilter.addEventListener("change", filterData);
+
+function filterData(){
+
+    let keyword =
+    searchInput.value.toLowerCase();
+
+    let section =
+    sectionFilter.value;
+
+    let result = personnel.filter(person=>{
+
+        let matchSearch =
+        JSON.stringify(person)
+        .toLowerCase()
+        .includes(keyword);
+
+        let matchSection =
+        section=="" ||
+        person["COY"]==section;
+
+        return matchSearch &&
+               matchSection;
+
+    });
+
+    renderTable(result);
+
+}
